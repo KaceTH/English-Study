@@ -32,23 +32,25 @@ body {
     height: 40px;
     font-size: 18px;
     text-align: left;
-    line-height: 20px;
     overflow: hidden;
-    cursor: text;
     white-space: nowrap;
-}
-
-.input-text {
-    display: inline-block;
-    vertical-align: middle;
+    position: relative;
+    cursor: text;
 }
 
 .caret {
-    display: none;
+    display: inline-block;
     width: 2px;
-    background: black;
     height: 1em;
+    background: black;
     animation: blink 1s steps(2, start) infinite;
+    position: absolute;
+}
+
+.input-mode {
+    margin: 10px 0;
+    font-size: 16px;
+    color: green;
 }
 
 #meaningInput {

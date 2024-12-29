@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Typing Practice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .game-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .word {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        .meaning {
+            font-size: 20px;
+            color: gray;
+            margin: 10px 0;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>English Typing Practice</h1>
+        <div>
+            <input type="file" id="csvFileInput" accept=".csv">
+            <button id="uploadButton">Upload CSV</button>
+        </div>
+        <div class="word" id="word">Upload a CSV file and press "Start Game" to begin!</div>
+        <div class="meaning" id="meaning"></div>
+        <input type="text" id="englishInput" placeholder="Type the English word here...">
+        <input type="text" id="meaningInput" placeholder="Type the meaning here...">
+        <button id="startButton">Start Game</button>
+        <p id="feedback"></p>
+    </div>
+
+    <script>
+        let words = [];
+        let currentWordIndex = 0;
+        let shuffledIndices = [];
+
+        // Function to handle CSV file upload
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const text = e.target.result;
+                    parseCSV(text);
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        // Parse CSV data
+        function parseCSV(data) {
+            const rows = data.split('\n');
+            words = [];
+            rows.forEach(row => {
+                const [english, meaning] = row.split(',');
+                if (english && meaning) {
+                    words.push({ english: english.trim(), meaning: meaning.trim() });
+                }
+            });
+            document.getElementById('word').innerText = 'CSV file loaded. Press "Start Game" to begin!';
+        }
+
+        // Shuffle function to randomize array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Start game function
+        function startGame() {
+            if (words.length === 0) {
+                document.getElementById('word').innerText = 'No words loaded!';
+                return;
+            }
+
+            shuffledIndices = Array.from({ length: words.length }, (_, i) => i);
+            shuffleArray(shuffledIndices);
+            currentWordIndex = 0;
+            showNextWord();
+        }
+
+        // Show next word
+        function showNextWord() {
+            if (currentWordIndex >= shuffledIndices.length) {
+                document.getElementById('word').innerText = 'Game Over!';
+                document.getElementById('meaning').innerText = '';
+                return;
+            }
+
+            const wordObj = words[shuffledIndices[currentWordIndex]];
+            document.getElementById('word').innerText = wordObj.english;
+            document.getElementById('meaning').innerText = wordObj.meaning;
+            document.getElementById('englishInput').value = '';
+            document.getElementById('meaningInput').value = '';
+            document.getElementById('feedback').innerText = '';
+        }
+
+        // Check user input
+        function checkInput() {
+            const englishInput = document.getElementById('englishInput').value.trim();
+            const meaningInput = document.getElementById('meaningInput').value.trim();
+            const wordObj = words[shuffledIndices[currentWordIndex]];
+
+            if (englishInput === wordObj.english && meaningInput === wordObj.meaning) {
+                document.getElementById('feedback').innerText = 'Correct!';
+                currentWordIndex++;
+                setTimeout(showNextWord, 1000);
+            } else {
+                document.getElementById('feedback').innerText = 'Try again!';
+            }
+        }
+
+        // Event listeners
+        document.getElementById('csvFileInput').addEventListener('change', handleFileUpload);
+        document.getElementById('startButton').addEventListener('click', startGame);
+        document.getElementById('englishInput').addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                document.getElementById('meaningInput').focus();
+            }
+        });
+        document.getElementById('meaningInput').addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                checkInput();
+            }
+        });
+    </script>
+</body>
+</html>

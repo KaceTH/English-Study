@@ -64,8 +64,10 @@ body {
 button {
     padding: 10px 20px;
     font-size: 16px;
-    margin: 13px;
     cursor: pointer;
+}
+#controlButton {
+    margin: 13px;
 }
 
 .feedback {

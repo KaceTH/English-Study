@@ -1,0 +1,74 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+.game-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.word {
+    font-size: 24px;
+    margin: 20px 0;
+}
+
+.meaning {
+    font-size: 20px;
+    color: gray;
+    margin: 10px 0;
+}
+
+.custom-input {
+    display: inline-block;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 300px;
+    height: 40px;
+    font-size: 18px;
+    text-align: left;
+    line-height: 20px;
+    overflow: hidden;
+    cursor: text;
+    white-space: nowrap;
+}
+
+.input-text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.caret {
+    display: none;
+    width: 2px;
+    background: black;
+    height: 1em;
+    animation: blink 1s steps(2, start) infinite;
+}
+
+#meaningInput {
+    width: 300px;
+    height: 40px;
+    font-size: 18px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.feedback {
+    color: red;
+    font-size: 18px;
+    margin-top: 10px;
+    visibility: hidden;
+    transition: visibility 0.3s linear;
+}

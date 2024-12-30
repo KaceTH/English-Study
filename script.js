@@ -193,7 +193,7 @@ function checkInput() {
 function skipWord() {
 currentWordIndex++;
     if (currentWordIndex >= shuffledIndices.length) {
-        ndGame();
+        endGame();
     } else {
         nextWord();
     }
@@ -201,5 +201,7 @@ currentWordIndex++;
 
 
 function endGame() {
+    document.getElementById("word").textContent = "Game Over (" + words.length + " Words)" ;
+    document.getElementById("meaning").textContent = "게임이 끝났습니다.";
     controlButton.textContent = "Start Game"; // 게임 종료 시 "Start Game" 버튼으로 변경
 }

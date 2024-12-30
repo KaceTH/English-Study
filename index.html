@@ -3,40 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Typing Game</title>
+    <title>English Typing Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <h1>English Typing Game</h1>
-
-        <!-- CSV 파일 업로드 -->
-        <div class="file-input">
+        <div id="progressText" class="progress-bar-container">
+            <div id="progressFill" class="progress-fill"></div>
+        </div>
+        <div class="file-status" id="fileStatus">No file loaded</div>
+        <div class="file-input" id="fileInputContainer">
             <label for="csvFileInput">Upload CSV File:</label>
             <input type="file" id="csvFileInput" accept=".csv">
         </div>
 
-        <!-- 단어 및 뜻 표시 -->
         <div class="game-display">
             <div id="word" class="word-display">Word will appear here</div>
             <div id="meaning" class="meaning-display">Meaning will appear here</div>
         </div>
 
-        <!-- 사용자 입력 -->
         <div class="user-input">
-            <div id="customInput" class="custom-input" contenteditable="true"></div>
+            <div id="customInput" class="custom-input" tabindex="0"></div>
             <input id="meaningInput" type="text" class="meaning-input" placeholder="Type the meaning here">
         </div>
 
-        <!-- 피드백 -->
         <div id="feedback" class="feedback">Incorrect! Try again.</div>
-
-        <!-- 컨트롤 버튼 -->
         <button id="controlButton" class="control-button">Start Game</button>
     </div>
 
-    <!-- JavaScript -->
-    <script src="inko.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

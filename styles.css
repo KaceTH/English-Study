@@ -1,79 +1,163 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 20px;
+    font-family: 'Roboto', Arial, sans-serif;
+    background: #eaeaea;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 50px;
 }
 
-.game-container {
+.container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 30px;
     max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    text-align: center;
 }
 
-.word {
-    font-size: 24px;
-    margin: 20px 0;
+h1 {
+font-size: 1.2rem; /* 제목 크기를 줄임 */
+color: #6c757d; /* 제목 색상을 더 은은하게 변경 */
+margin-bottom: 10px;
+font-weight: 600; /* 약간 가벼운 강조 */
 }
 
-.meaning {
-    font-size: 20px;
-    color: gray;
-    margin: 10px 0;
+.file-status {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 10px;
+    display: none;
 }
 
-.custom-input {
-    display: inline-block;
-    border: 1px solid #ddd;
-    padding: 10px;
-    width: 300px;
-    height: 40px;
-    font-size: 18px;
+.file-input {
+    margin-bottom: 20px;
     text-align: left;
-    overflow: hidden;
-    white-space: nowrap;
-    position: relative;
-    cursor: text;
 }
 
-.caret {
-    display: inline-block;
-    width: 2px;
-    height: 1em;
-    background: black;
-    animation: blink 1s steps(2, start) infinite;
-    position: absolute;
+.file-input label {
+    font-size: 1rem;
+    color: #555;
+    font-weight: 500;
 }
 
-.input-mode {
-    margin: 10px 0;
-    font-size: 16px;
-    color: green;
-}
-
-#meaningInput {
-    width: 300px;
-    height: 40px;
-    font-size: 18px;
-    padding: 10px;
+.file-input input {
+    display: block;
     margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #f5f5f5;
 }
 
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+.progress-bar-container {
+    background: #d8dee4;
+    height: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
 }
-#controlButton {
-    margin: 13px;
+
+.progress-fill {
+    background: #4caf50;
+    height: 100%;
+    width: 0;
+    transition: width 0.4s ease-in-out;
+}
+
+#progressText {
+    font-size: 0.9rem;
+    color: #2d6187;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.word-display {
+font-size: 2.5rem; /* 단어 크기 크게 */
+font-weight: 700; /* 단어 강조 */
+color: #2d6187; /* 단어 색상 변경 */
+margin-bottom: 15px; /* 단어와 뜻 사이 간격 */
+}
+
+.meaning-display {
+font-size: 2rem; /* 뜻 크기 증가 */
+font-weight: 600; /* 뜻 강조 */
+color: #4a5568; /* 뜻 색상 강조 */
+margin-bottom: 20px; /* 입력 필드와 간격 조정 */
+}
+
+.user-input {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* 입력 필드 사이 간격 */
+}
+.custom-input {
+white-space: pre; /* 공백과 줄 바꿈을 그대로 표시 */
+}
+
+.custom-input,
+.meaning-input {
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    background: #f5f5f5;
+    width: 100%;
+    box-sizing: border-box;
+    height: 40px; /* 고정 높이 */
+    display: flex;
+    align-items: center;
+}
+
+.custom-input span {
+    font-size: 1rem;
+    color: #555;
+}
+
+.custom-input .caret {
+    width: 2px;
+    height: 100%;
+    background-color: #888; /* 은은한 회색 캐럿 */
+}
+
+.custom-input.inactive .caret {
+    display: none;
 }
 
 .feedback {
-    color: red;
-    font-size: 18px;
-    margin-top: 10px;
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #e74c3c;
+    font-weight: 600;
     visibility: hidden;
-    transition: visibility 0.3s linear;
+}
+
+.control-button {
+    padding: 12px 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background: #2d6187;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.control-button:hover {
+    background: #1b425c;
+}
+
+.control-button:active {
+    transform: scale(0.98);
 }

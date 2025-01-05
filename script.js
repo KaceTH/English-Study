@@ -18,6 +18,92 @@ const meaningInput = document.getElementById("meaningInput");
 const controlButton = document.getElementById("controlButton");
 const feedback = document.getElementById("feedback");
 
+const dictionaryInfo = document.getElementById("dictionaryInfo");
+const definitionDiv = document.getElementById("definition");
+const ukDiv = document.getElementById("uk");
+const usDiv = document.getElementById("us");
+
+async function fetchDefinition(word) {
+    const LINK_PREFIX = "https://dictionary.cambridge.org";
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+    const url = `${LINK_PREFIX}/dictionary/english/${word}`;
+
+    try {
+        const response = await fetch(`${proxyUrl}${url}`);
+        if (!response.ok) {
+            throw new Error(`Error fetching data for "${word}".`);
+        }
+
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+
+        // Extract dictionary details
+        const definitionBlock = doc.querySelector(".def.ddef_d");
+        const definition = definitionBlock ? definitionBlock.textContent.trim() : "Definition not found.";
+
+        const ukIpaBlock = doc.querySelector(".uk .pron.dpron");
+        const ukIpa = ukIpaBlock ? ukIpaBlock.textContent.replaceAll("/","").trim() : "";
+
+        const usIpaBlock = doc.querySelector(".us .pron.dpron");
+        const usIpa = usIpaBlock ? usIpaBlock.textContent.replaceAll("/","").trim() : "";
+
+        const ukAudioSource = doc.querySelector(".uk span.daud source");
+        const ukAudioUrl = ukAudioSource ? `${LINK_PREFIX}${ukAudioSource.getAttribute("src")}` : null;
+
+        const usAudioSource = doc.querySelector(".us span.daud source");
+        const usAudioUrl = usAudioSource ? `${LINK_PREFIX}${usAudioSource.getAttribute("src")}` : null;
+
+        // Update dictionary info section with play/pause buttons
+
+        definitionDiv.innerHTML = `${definition}`;
+
+        ukDiv.innerHTML = `${ukAudioUrl ? `<button class="audio-control-button" id="ukAudioBtn">🔈</button> <label for="ukAudioBtn">UK  [ ${ukIpa} ]</label>` : ""}`;
+        usDiv.innerHTML = `${usAudioUrl ? `<button class="audio-control-button" id="usAudioBtn">🔈</button> <label for="usAudioBtn">US  [ ${usIpa} ]</label>` : ""}`;
+
+
+        // Add event listeners for play/pause buttons
+        const ukAudioElement = new Audio(ukAudioUrl);
+        const usAudioElement = new Audio(usAudioUrl);
+
+        document.getElementById("ukAudioBtn")?.addEventListener("click", () => {
+            if (ukAudioElement.paused) {
+                ukAudioElement.play();
+                document.getElementById("ukAudioBtn").textContent = "🔊"; // 버튼 텍스트 변경
+            } else {
+                ukAudioElement.pause();
+                document.getElementById("ukAudioBtn").textContent = "🔈"; // 버튼 텍스트 변경
+            }
+        });
+
+        document.getElementById("usAudioBtn")?.addEventListener("click", () => {
+            if (usAudioElement.paused) {
+                usAudioElement.play();
+                document.getElementById("usAudioBtn").textContent = "🔊"; // 버튼 텍스트 변경
+            } else {
+                usAudioElement.pause();
+                document.getElementById("usAudioBtn").textContent = "🔈"; // 버튼 텍스트 변경
+            }
+        });
+
+        // Add event listeners to reset button text when audio ends
+        ukAudioElement.addEventListener("ended", () => {
+            document.getElementById("ukAudioBtn").textContent = "🔈"; // 오디오 끝나면 버튼 텍스트 변경
+        });
+
+        usAudioElement.addEventListener("ended", () => {
+            document.getElementById("usAudioBtn").textContent = "🔈"; // 오디오 끝나면 버튼 텍스트 변경
+        });
+
+        dictionaryInfo.style.display = "block";
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+
 csvFileInput.addEventListener("change", (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -128,7 +214,7 @@ function parseCSV(data) {
             const english = matches[0][1] || matches[0][2];
             const meaning = matches[1][1] || matches[1][2];
             if (english && meaning) {
-                words.push(english.trim());
+                words.push(normalizeText(english).trim());
                 meanings.push(meaning.trim());
             }
         }
@@ -138,6 +224,17 @@ function parseCSV(data) {
         alert("CSV is empty or incorrectly formatted.");
     }
 }
+
+function normalizeText(text) {
+    // 모든 공백 문자를 단일 스페이스로 변환
+    text = text.replace(/[\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000]+/g, " ");
+
+    // 다양한 하이픈 변종을 표준 하이픈(-)으로 변환
+    text = text.replace(/[\u2010\u2011\u2012\u2013\u2014\u2015]/g, "-");
+
+    return text.trim(); // 앞뒤 공백 제거
+}
+
 
 function startGame() {
     shuffledIndices = Array.from({ length: words.length }, (_, i) => i).sort(() => Math.random() - 0.5);
@@ -152,9 +249,10 @@ function nextWord() {
         endGame();
         return;
     }
-
+    
     const wordIndex = shuffledIndices[currentWordIndex];
-    document.getElementById("word").textContent = words[wordIndex];
+    const word = words[wordIndex];
+    document.getElementById("word").textContent = word;
     document.getElementById("meaning").textContent = meanings[wordIndex];
 
     customContent = ""; // 사용자 입력 초기화
@@ -165,6 +263,13 @@ function nextWord() {
 
     // "meaningInput"에 포커스를 자동으로 주어 사용자가 입력할 수 있도록 함
     customInput.focus();
+
+    definitionDiv.innerHTML = "";
+    ukDiv.innerHTML = "Loading...";
+    usDiv.innerHTML = "";
+
+    // 단어에 대한 정의와 오디오를 로딩
+    fetchDefinition(word); 
 }
 
 function updateProgress() {

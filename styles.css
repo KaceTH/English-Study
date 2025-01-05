@@ -171,7 +171,7 @@ white-space: pre; /* 공백과 줄 바꿈을 그대로 표시 */
     border-radius: 10px; /* 둥근 모서리 */
     text-align: left; /* 텍스트 정렬 */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 */
-    min-height: 152;
+    min-height: 152px;
 }
 
 .dictionary-info h2 {

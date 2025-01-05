@@ -30,8 +30,9 @@ font-weight: 600; /* 약간 가벼운 강조 */
 .file-status {
     font-size: 0.9rem;
     color: #6c757d;
-    margin-bottom: 10px;
+    margin-bottom: 2px;
     display: none;
+    text-align: right;
 }
 
 .file-input {
@@ -63,11 +64,11 @@ font-weight: 600; /* 약간 가벼운 강조 */
     overflow: hidden;
     position: relative;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 2px;
 }
 
 .progress-fill {
-    background: #4caf50;
+    background: #2d6187;
     height: 100%;
     width: 0;
     transition: width 0.4s ease-in-out;
@@ -77,7 +78,7 @@ font-weight: 600; /* 약간 가벼운 강조 */
     font-size: 0.9rem;
     color: #2d6187;
     margin-top: 5px;
-    text-align: center;
+    text-align: left;
 }
 
 .word-display {
@@ -159,5 +160,69 @@ white-space: pre; /* 공백과 줄 바꿈을 그대로 표시 */
 }
 
 .control-button:active {
+    transform: scale(0.98);
+}
+
+.dictionary-info {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa; /* 은은한 배경색 */
+    border: 1px solid #dee2e6; /* 가벼운 테두리 */
+    border-radius: 10px; /* 둥근 모서리 */
+    text-align: left; /* 텍스트 정렬 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 */
+    min-height: 152;
+}
+
+.dictionary-info h2 {
+    font-size: 1rem; /* 제목 크기 */
+    color: #bbc1c7; /* 게임 색상과 일치 */
+    margin: 0px 0px 10px 0px; /* 제목과 내용 간격 */
+}
+
+.dictionary-info p,
+.dictionary-info strong {
+    font-size: 1rem; /* 텍스트 크기 */
+    color: #4a5568; /* 다소 진한 색상 */
+}
+
+.dictionary-info .audio {
+    margin-top: 15px; /* 오디오와 텍스트 간격 */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* 여러 오디오 사이 간격 */
+}
+
+.dictionary-info audio {
+    outline: none; /* 기본 테두리 제거 */
+}
+
+
+
+.dictionary-info strong {
+    font-weight: 600; /* 강조 */
+}
+
+
+.audio-control-button {
+    text-align: left;
+    width: 2.5rem;
+    height: 2rem;
+    font-size: 1rem;
+    background-color: #ededed;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.audio-control-button:hover {
+    background-color: #bed1d8;
+}
+
+.audio-control-button:active {
     transform: scale(0.98);
 }

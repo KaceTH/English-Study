@@ -31,6 +31,7 @@ async function fetchDefinition(word) {
     try {
         const response = await fetch(`${proxyUrl}${url}`);
         if (!response.ok) {
+            definitionDiv.innerHTML = `<iframe src="https://cors-anywhere.herokuapp.com/corsdemo" min-width="100%" height="240px"></iframe>`;
             throw new Error(`Error fetching data for "${word}".`);
         }
 
@@ -95,6 +96,14 @@ async function fetchDefinition(word) {
             document.getElementById("usAudioBtn").textContent = "🔈"; // 오디오 끝나면 버튼 텍스트 변경
         });
 
+        usAudioElement.addEventListener("loadeddata", () => {
+            usAudioElement.play();
+            document.getElementById("usAudioBtn").textContent = "🔊"; // 버튼 텍스트 변경
+            setTimeout(function() {
+                ukAudioElement.play()
+                document.getElementById("ukAudioBtn").textContent = "🔊"; // 버튼 텍스트 변경
+            }, 2000 + usAudioElement.duration)
+        });
         dictionaryInfo.style.display = "block";
 
     } catch (error) {
@@ -122,6 +131,7 @@ controlButton.addEventListener("click", () => {
     if (words.length > 0) {
     if (controlButton.textContent === "Start Game") {
         fileInputContainer.style.display = "none";
+        document.querySelector(".dictionary-info h2").innerText = "Meaning";
         startGame();
     } else if (controlButton.textContent === "Skip") {
         skipWord();

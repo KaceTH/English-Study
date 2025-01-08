@@ -38,6 +38,9 @@ font-weight: 600; /* 약간 가벼운 강조 */
 .file-input {
     margin-bottom: 20px;
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .file-input label {
@@ -50,7 +53,6 @@ font-weight: 600; /* 약간 가벼운 강조 */
     display: block;
     margin-top: 10px;
     padding: 10px;
-    width: 100%;
     font-size: 1rem;
     border: 1px solid #ced4da;
     border-radius: 6px;
